@@ -1,10 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { PlaidLinkButton } from "@/components/plaid-link-button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RefreshCcw, Trash2 } from "lucide-react"
+import { useToast } from "@/components/ui/use-toast"
 
 // Mock data for accounts
 const accounts = [
@@ -43,6 +45,9 @@ const accounts = [
 ]
 
 export default function AccountsPage() {
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -56,6 +61,7 @@ export default function AccountsPage() {
           <TabsTrigger value="credit">Credit</TabsTrigger>
           <TabsTrigger value="investment">Investment</TabsTrigger>
         </TabsList>
+
         <TabsContent value="all" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {accounts.map((account) => (
@@ -74,11 +80,57 @@ export default function AccountsPage() {
                   </p>
                 </CardContent>
                 <CardFooter className="flex justify-between pt-2">
-                  <Button variant="outline" size="sm">
+                  {/* Refresh Button */}
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={async () => {
+                      try {
+                        await fetch(`/api/plaid/accounts/${account.id}/refresh`, {
+                          method: 'POST',
+                        });
+                        toast({
+                          title: "Account Refreshed",
+                          description: `${account.name} has been successfully refreshed.`,
+                        });
+                      } catch (error) {
+                        toast({
+                          variant: "destructive",
+                          title: "Refresh Failed",
+                          description: "There was an error refreshing your account.",
+                        });
+                      }
+                    }}
+                  >
                     <RefreshCcw className="mr-2 h-4 w-4" />
                     Refresh
                   </Button>
-                  <Button variant="outline" size="sm" className="text-destructive">
+
+                  {/* Remove Button */}
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="text-destructive"
+                    onClick={async () => {
+                      if (confirm(`Are you sure you want to remove ${account.name}?`)) {
+                        try {
+                          // In a real app, you would call an API to remove the account
+                          toast({
+                            title: "Account Removed",
+                            description: `${account.name} has been removed from your accounts.`,
+                          });
+                          // Simulate removal by reloading after a delay
+                          setTimeout(() => window.location.reload(), 1000);
+                        } catch (error) {
+                          toast({
+                            variant: "destructive",
+                            title: "Removal Failed",
+                            description: "There was an error removing your account.",
+                          });
+                        }
+                      }
+                    }}
+                  >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Remove
                   </Button>
@@ -95,6 +147,8 @@ export default function AccountsPage() {
             </Card>
           </div>
         </TabsContent>
+
+        {/* Other Tabs Content */}
         <TabsContent value="bank" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {accounts
@@ -125,6 +179,8 @@ export default function AccountsPage() {
               ))}
           </div>
         </TabsContent>
+        
+        {/* Similar Tab Content for Credit and Investment */}
         <TabsContent value="credit" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {accounts
@@ -157,6 +213,7 @@ export default function AccountsPage() {
               ))}
           </div>
         </TabsContent>
+
         <TabsContent value="investment" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {accounts

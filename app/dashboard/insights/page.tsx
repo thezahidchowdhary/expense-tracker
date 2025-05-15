@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { ArrowUpRight, Brain, Lightbulb, RefreshCw, TrendingUp } from "lucide-react"
+import { AIInsights } from "@/components/ai-insights" // Import AIInsights component
 
 export default function InsightsPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +48,7 @@ export default function InsightsPage() {
           <TabsTrigger value="recommendations">Recommendations</TabsTrigger>
         </TabsList>
         <TabsContent value="summary" className="space-y-4">
+          {/* AI Generated Insights Content */}
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -85,6 +87,8 @@ export default function InsightsPage() {
               </Button>
             </CardFooter>
           </Card>
+
+          {/* Spending Anomalies and Savings Opportunities */}
           <div className="grid gap-4 md:grid-cols-2">
             <Card>
               <CardHeader>
@@ -160,111 +164,28 @@ export default function InsightsPage() {
             </Card>
           </div>
         </TabsContent>
+
         <TabsContent value="spending" className="space-y-4">
+          {/* Spending Pattern Analysis */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Spending Pattern Analysis</CardTitle>
-                  <CardDescription>AI-powered analysis of your spending habits</CardDescription>
-                </div>
-                <Badge variant="outline" className="ml-auto">
-                  AI Generated
-                </Badge>
-              </div>
+              <CardTitle>Spending Pattern Analysis</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <h3 className="font-semibold">Weekly Spending Patterns</h3>
-                <p>
-                  Your spending tends to peak on weekends, with Saturday being your highest spending day (average $85).
-                  Monday through Thursday show consistent spending around $35-45 per day.
-                </p>
-                <div className="h-[200px] w-full bg-muted rounded-md flex items-center justify-center text-muted-foreground">
-                  Weekly spending chart visualization
-                </div>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <h3 className="font-semibold">Category Breakdown</h3>
-                <p>
-                  Your spending is well-distributed across essential categories. However, your entertainment spending
-                  (15% of total) is higher than the recommended 10% for your income level.
-                </p>
-                <div className="h-[200px] w-full bg-muted rounded-md flex items-center justify-center text-muted-foreground">
-                  Category breakdown chart visualization
-                </div>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <h3 className="font-semibold">Recurring Expenses</h3>
-                <p>
-                  You have 8 recurring monthly expenses totaling $325.45. This represents 13.8% of your monthly
-                  spending.
-                </p>
-                <ul className="space-y-2 list-disc pl-5">
-                  <li>Mortgage/Rent: $1,200.00</li>
-                  <li>Utilities: $185.35</li>
-                  <li>Subscriptions: $45.97</li>
-                  <li>Gym Membership: $50.00</li>
-                  <li>Phone Bill: $75.00</li>
-                </ul>
-              </div>
+            <CardContent>
+              {/* Add your spending analysis content here */}
             </CardContent>
           </Card>
         </TabsContent>
+
         <TabsContent value="recommendations" className="space-y-4">
+          {/* Recommendations Section */}
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Personalized Recommendations</CardTitle>
-                  <CardDescription>AI-generated suggestions to improve your finances</CardDescription>
-                </div>
-                <Badge variant="outline" className="ml-auto">
-                  AI Generated
-                </Badge>
-              </div>
+              <CardTitle>Personalized Recommendations</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-2">
-                <h3 className="font-semibold">Budget Optimization</h3>
-                <p>
-                  Based on your income and spending patterns, Claude AI recommends the following budget adjustments:
-                </p>
-                <ul className="space-y-2 list-disc pl-5">
-                  <li>Reduce entertainment spending by 5% (potential savings: $35/month)</li>
-                  <li>Consider bundling your streaming services (potential savings: $10/month)</li>
-                  <li>Review your mobile phone plan for unused data (potential savings: $15/month)</li>
-                  <li>Set up automatic transfers to your savings account on payday</li>
-                </ul>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <h3 className="font-semibold">Savings Goals</h3>
-                <p>Based on your current savings rate and financial goals, Claude recommends:</p>
-                <ul className="space-y-2 list-disc pl-5">
-                  <li>Increase your emergency fund to cover 6 months of expenses</li>
-                  <li>Consider opening a high-yield savings account for better interest rates</li>
-                  <li>Set up a dedicated savings account for your vacation goal</li>
-                  <li>Review your retirement contributions to maximize employer matching</li>
-                </ul>
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <h3 className="font-semibold">Smart Money Moves</h3>
-                <p>These personalized recommendations could help improve your financial health:</p>
-                <ul className="space-y-2 list-disc pl-5">
-                  <li>Refinance your credit card debt to a lower interest rate</li>
-                  <li>Set up automatic bill payments to avoid late fees</li>
-                  <li>Review your subscriptions quarterly and cancel unused services</li>
-                  <li>Consider meal planning to reduce food delivery expenses</li>
-                </ul>
-              </div>
+            <CardContent>
+              {/* Add your recommendations content here */}
             </CardContent>
-            <CardFooter>
-              <Button className="w-full">Apply Recommendations to Budget</Button>
-            </CardFooter>
           </Card>
         </TabsContent>
       </Tabs>

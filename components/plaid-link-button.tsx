@@ -1,9 +1,10 @@
+// File: components/plaid-link-button.tsx
 "use client"
 
 import { useState } from "react"
 import { Button, type ButtonProps } from "@/components/ui/button"
 import { useToast } from "@/components/ui/use-toast"
-import { Plus } from "lucide-react"
+import { Plus } from 'lucide-react'
 
 interface PlaidLinkButtonProps extends ButtonProps {}
 
@@ -14,22 +15,44 @@ export function PlaidLinkButton({ variant = "default", ...props }: PlaidLinkButt
   const handleOpenPlaidLink = async () => {
     setIsLoading(true)
     try {
-      // Here you would normally call your API to initiate the Plaid Link flow
-      // For demo purposes, we'll just simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      toast({
-        title: "Plaid Link",
-        description: "This is a demo. In a real app, this would open the Plaid Link interface.",
-      })
+      // Call your API to get a link token
+      const response = await fetch('/api/plaid/link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      const data = await response.json();
+      
+      if (!data.link_token) {
+        throw new Error('Failed to get link token');
+      }
+      
+      // In a real implementation, you would use the Plaid Link SDK here
+      // For demo purposes, we'll simulate the flow
+      console.log('Link token:', data.link_token);
+      
+      // Simulate successful account connection
+      setTimeout(() => {
+        toast({
+          title: "Account Connected",
+          description: "Your bank account has been successfully connected.",
+        });
+        setIsLoading(false);
+        
+        // Reload the page to show the new account
+        window.location.reload();
+      }, 2000);
+      
     } catch (error) {
+      console.error('Error connecting account:', error);
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Failed to initialize Plaid Link. Please try again.",
-      })
-    } finally {
-      setIsLoading(false)
+        title: "Connection Failed",
+        description: "There was an error connecting your account. Please try again.",
+      });
+      setIsLoading(false);
     }
   }
 

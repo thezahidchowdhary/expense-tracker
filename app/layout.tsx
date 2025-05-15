@@ -23,4 +23,18 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <title>Expense Tracker</title>
-      </head
+      </head>
+      <body className={inter.className}>
+        {/* Wrap the children in the ThemeProvider and AuthProvider */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </ThemeProvider>
+        {/* ✅ Add the SpeedInsights component */}
+        <SpeedInsights />
+      </body>
+    </html>
+  );
+}
